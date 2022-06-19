@@ -1,21 +1,13 @@
 ---
-title: "Conjunto de datos estadisticos policiales 2021"
+title: "Datos policiales 2021"
 author: "Nataly Montoya Campos"
 date: '2022-06-19'
-output: 
-  html_document:  
-    theme: readable  
-    toc: true  
-    toc_depth: 5  
-    toc_float:  
-      collapsed: false  
-      smooth_scroll: false   
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
 ## Presentacion
 
 ## Conjunto de datos
@@ -42,7 +34,6 @@ Datos_policiales %>%
     language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')
   ))
 ```
-
 
 ## Gráfico de barras simples
 ```{r}
