@@ -17,12 +17,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Presentacion
-Datos_policiales <-
- readxl::read_excel(
-    path = ("C:/Users/Fabiana/OneDrive/Documentos/Fabiana IMPORTANTE/Cursos Universidad/Procesamiento de datos Geo I/Tarea 2/Datos policiales.xls"),
-    sheet = ";",
-    col_select = c("Delito", "Fecha", "Victima", "Edad", "Genero", "Provincia", "Cantón")
-  )
 
 ## Conjunto de datos
 ```{r Carga de datos}
@@ -36,7 +30,8 @@ Datos_policiales <-
 ```{r}
 Datos_policiales <-
   Datos_policiales %>%
-  select("Delito", "Fecha", "Victima", "Edad", "Genero", "Provincia", "Canton")
+  select(Delito, Fecha, Victima, Edad, Genero, Provincia, Canton)
+
 ```
 
 
@@ -117,5 +112,4 @@ Datos_policiales %>%
 
 ggplotly(barras_identity_por_cantones) %>% config(locale = 'es')
 ```
-
 
