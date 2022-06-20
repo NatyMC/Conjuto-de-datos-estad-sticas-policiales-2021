@@ -1,0 +1,121 @@
+---
+title: "Conjunto de datos policiales 2021"
+author: "Nataly Montoya Campos"
+date: '2022-06-20'
+output:
+  html_document:
+    theme: readable    
+    toc: true
+    toc_depth: 5
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Presentación de tarea 2 de Procesamiento
+
+## Entrada
+
+```{r, message = FALSE}
+# Carga de conjunto de datos policiales
+
+Estadisticas_policiales <-
+	  readxl::read_excel(
+	    "C:/Users/Fabiana/OneDrive/Documentos/Fabiana IMPORTANTE/Cursos Universidad/Procesamiento de datos Geo I/Tarea 2/Estadisticas_policiales.xls")
+
+```
+
+## Desarrollo de tablas y gráficos
+# Tabla DT
+```{r}
+Estadisticas_policiales <-
+  Estadisticas_policiales %>%
+  select(Delito, Fecha, Victima, Edad, Genero, Provincia, Canton)
+
+Estadisticas_policiales %>%
+  datatable(
+    options = list(
+      pageLength = 15,
+      language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')
+    ),
+    colnames = c("Delito", "Fecha", "Víctima", "Edad", "Género", "Provincia", "Cantón")
+  )
+
+```
+
+# Gráfico de barras simples
+```{r}
+# Cantidad de delitos por tipo de delito
+Cantidad_delito_tipo <-
+  Estadisticas_policiales %>%
+    count(Delito) %>%
+    ggplot(aes(x = n, y = reorder(Delito, n))) +
+    geom_bar(stat = "identity") +
+    ggtitle("Cantidad de Delitos por tipo de Delito") +
+    xlab("Cantidad de Delito") +
+    ylab("Tipo de Delito") +
+    coord_flip() +
+    theme_gray()
+
+ggplotly(Cantidad_delito_tipo) %>% config(locale = 'es')
+```
+
+```{r}
+# Cantidad de delitos por mes del año
+Cantidad_delito_mes <-
+  Estadisticas_policiales %>%
+    lubridate::month(x, label = FALSE, abbr = TRUE, locale = Sys.getlocale("LC_TIME")) +
+    ggplot(aes(x = Delito)) +
+    geom_bar() +
+    ggtitle("Cantidad de delitos por mes del año") +
+    xlab("Mes del año") +
+    ylab("Cantidad de delitos") +
+    theme_gray()
+
+ggplotly(ggplot2_barras_tipo_delito) %>% config(locale = 'es')
+
+```
+
+# Gráfico de barras apiladas 
+```{r}
+# Tipo de Delito por proporciones 
+	Delito_genero_en_proporcion <-
+	  Estadisticas_policiales %>%
+	  ggplot(aes(x = Genero, fill = Delito)) +
+	  geom_bar(position = "fill") +
+	  ggtitle("Tipo de Delitos por Género en proporciones") +
+	  xlab("Género") +
+	  ylab("Proporción") +
+	  labs(fill = "Delito") +
+	  theme_gray()
+	
+	ggplotly(Delito_genero_en_proporcion) %>% config(locale = 'es')
+
+```
+
+# Gráfico de barras simples
+```{r}
+# Cantidad de delitos en cantones de las provincias de San José, Alajuela, Cartago y Heredia
+grafico <- filter(Estadisticas_policiales, grepl('HEREDIA|ALAJUELA|CARTAGO|SAN JOSE', Canton))
+
+Delitos_cantones_provincias <-
+  ggplot(data= grafico, aes(x=Canton)) +
+  geom_bar( ) +
+  ggtitle("Delitos en San Jose Alajuela Cartago Heredia") +
+  xlab("Cantones") +
+  ylab("Cantidad de Delitos") +
+  theme_gray()
+
+ggplotly(Delitos_cantones_provincias) %>% config(locale = 'es')
+
+
+```
+
+
+
+
